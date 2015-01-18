@@ -34,7 +34,7 @@ user if they want to continue.
 \examples{
 file.path <- system.file("extdata", "glock.x3p", package="x3pr")
 glock.x3p.info <- read.x3p(file.path)
-plot3D.x3p.file(glock.sur.surface.info, 1024, 80, aspect=c(1,3,0.4), plot.type="surface")
+plot3D.x3p.file(glock.x3p.info, 1024, 80, aspect=c(1,3,0.4), plot.type="surface")
 }
 \references{
 http://open-gps.sourceforge.net/

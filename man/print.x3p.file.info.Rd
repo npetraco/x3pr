@@ -24,7 +24,7 @@ none.
 file.path <- system.file("extdata", "glock.x3p", package="x3pr")
 glock.x3p.info <- read.x3p(file.path)
 glock.x3p.info[[1]]
-print.x3p.file.info(glock.sur.surface.info[[1]]z)
+print.x3p.file.info(glock.x3p.info[[1]])
 }
 \references{
 http://open-gps.sourceforge.net/
