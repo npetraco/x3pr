@@ -1,0 +1,87 @@
+#' @title 3D surface of a 9-mm Glock firing pin aperture shear in Digital Surf format.
+#'
+#' @description A binary file. It consists of a 512-byte header followed by the z-heights of a 
+#' retangular portion of a firing pin aperture shear on a fired
+#' cartrige case. This 3D data is in the form of a Digital Surf
+#' MountainsMap 5 .sur format.
+#'
+#' @format A 512-byte header of information about the surface followed by
+#' a 1D array of data. Information in the header is:
+#' \describe{
+#'   \item{code}{}
+#'   \item{format}{}
+#'   \item{num.obj}{}
+#'   \item{ver.num}{}
+#'   \item{stud.typ}{}
+#'   \item{name.obj}{}
+#'   \item{name.op}{}
+#'   \item{unused}{}
+#'   \item{int1}{}
+#'   \item{unused.int2}{}
+#'   \item{unused.int3}{}
+#'   \item{non.meas.pts}{}
+#'   \item{flg,abs.z.flg}{}
+#'   \item{reserv}{}
+#'   \item{num.bits.pt}{}
+#'   \item{min.z}{}
+#'   \item{max.z}{}
+#'   \item{num.pts.line}{}
+#'   \item{num.lines}{}
+#'   \item{num.pts.total}{}
+#'   \item{x.inc}{}
+#'   \item{y.inc}{}
+#'   \item{z.inc}{}
+#'   \item{x.label}{}
+#'   \item{y.label}{}
+#'   \item{z.label}{}
+#'   \item{x.unit}{}
+#'   \item{y.unit}{}
+#'   \item{z.unit}{}
+#'   \item{x.len.unit}{}
+#'   \item{y.len.unit}{}
+#'   \item{z.len.unit}{}
+#'   \item{x.ratio}{}
+#'   \item{y.ratio}{}
+#'   \item{z.ratio}{}
+#'   \item{replica}{}
+#'   \item{inverted}{}
+#'   \item{leveled}{}
+#'   \item{unused.sing1}{}
+#'   \item{unused.sing2}{}
+#'   \item{unused.sing3}{}
+#'   \item{meas.time.sec}{}
+#'   \item{meas.time.min}{}
+#'   \item{meas.time.hr}{}
+#'   \item{meas.time.day}{}
+#'   \item{meas.time.month}{}
+#'   \item{meas.time.yr}{}
+#'   \item{meas.time.wkday}{}
+#'   \item{meas.dur}{}
+#'   \item{unused.int4}{}
+#'   \item{unused.int5}{}
+#'   \item{unused.sing4}{}
+#'   \item{unused.int6}{}
+#'   \item{leng.comment.zone}{}
+#'   \item{leng.private.zone}{}
+#'   \item{free.zone}{}
+#'   \item{x.off}{}
+#'   \item{y.off}{}
+#'   \item{z.off}{}
+#'   \item{TT.spacing}{}
+#'   \item{TT.off}{}
+#'   \item{TT.name}{}
+#'   \item{TT.step.unit}{}
+#'   \item{comment.zone}{}
+#'   \item{private.zone}{}
+#' }
+#' 
+#' @source \url{http://NIST.DATABASE.XXXXXXXXX}
+#' @source \url{http://www.digitalsurf.fr}
+#' 
+#' @examples
+#' file.path <- system.file("extdata", "glock.sur", package="x3pr")
+#' glock.sur.surface.info <- read.digital.surf.file(file.path)
+#' glock.sur.surface.info[[1]]
+#' 
+#' @name glock.sur
+NULL

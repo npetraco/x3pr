@@ -1,0 +1,10 @@
+Package: x3pr
+Type: Package
+Title: Read/Write functionality for X3P surface metrology format
+Version: 1.0
+Date: 2014-05-23
+Author: OpenFMC (Open Forensic Metrology Consortium)
+Maintainer: <npetraco@gmail.com>
+Description: R Read/Write functionality for "standard" (we hope) surface metrology format X3P. Cf.: http://www.opengps.eu/2008/ISO5436_2 and http://www.opengps.eu/2008/ISO5436_2/ISO5436_2.xsd
+License: GPL (>= 2)
+Depends: XML (>= 3.95-0.2), akima (>= 0.5-11), rgl (>= 0.93.996)
