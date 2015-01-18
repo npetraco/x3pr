@@ -17,6 +17,8 @@
 #--------------------------------------------
 read.zeiss.lms.file<-function(file.path) {
   
+  stop("NOT WORKING")
+  
   ptr<-file(file.path, "rb") #Open up a connection to the .sur file
   header.info<-read.zeiss.lms.header(ptr)
   surface.matrix<-read.zeiss.lms.profiles(ptr,header.info)

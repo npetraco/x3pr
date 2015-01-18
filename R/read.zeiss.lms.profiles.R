@@ -18,6 +18,8 @@
 # }
 #--------------------------------------------
 read.zeiss.lms.profiles<-function(pt,header.info) {
+  
+  stop("NOT WORKING")
     
   #Offset for profiles:
   offset <- header.info$offset.to.img2 + header.info$bfoffbits2

@@ -17,6 +17,8 @@
 #--------------------------------------------
 read.zeiss.lms.header<-function(pt)
 {
+ 
+  stop("NOT WORKING")
   
   #1
   seek(pt, where = 0, rw="r")
