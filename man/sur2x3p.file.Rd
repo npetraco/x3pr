@@ -67,7 +67,7 @@ extra.header.info <- list(
   paste("Microscope Objective: ", "50x/","0.8NA, ",sep=""),
   paste("Invalid Pixel Value: ", NaN,sep=""))
 
- sur2x3p.file(glock.sur.info, generic.header.info, comment.block, fname="testfile.x3p", move.to.directory=getwd())
+ sur2x3p.file(glock.sur.info, extra.header.info, comment.block, fname="testfile.x3p", move.to.directory=getwd())
 }
 \references{
 http://open-gps.sourceforge.net/
