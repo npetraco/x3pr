@@ -87,7 +87,8 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
   writeBin(1e-6 * as.numeric(t(surf.info[[2]])), data.fpath, size=4)
   close(fptr)
   
-  chk.sum <- strsplit(system(paste("md5",data.fpath),intern=T)," ")[[1]][4]
+  #chk.sum <- strsplit(system(paste("md5",data.fpath),intern=T)," ")[[1]][4]
+  chk.sum <- tools::md5sum(data.fpath)
   #print(chk.sum)
   
   #This is the format of the date/time in main.xml:
