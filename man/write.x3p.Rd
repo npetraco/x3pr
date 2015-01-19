@@ -4,12 +4,13 @@
 \alias{write.x3p}
 \title{Write a x3p format file.}
 \usage{
-write.x3p(x3p.header.info.list, surface.mat, fname, move.to.directory)
+write.x3p(x3p.header.info.list, surface.mat, fname, move.to.directory,
+  print.diagnosticsQ = FALSE)
 }
 \arguments{
-\item{x3p.header.info.list}{XXXXXXXXXXX}
+\item{x3p.header.info.list}{header information that will go into main.xml.}
 
-\item{surface.mat}{XXXXXXXXXXX}
+\item{surface.mat}{the surface to save in matrix form.}
 
 \item{fname}{desired .x3p file name}
 
@@ -22,10 +23,52 @@ a x3p file is written to disk.
 Write a x3p format file.
 }
 \details{
-Write a x3p format file.
+Write a x3p format file. Some of the header information is mandatory as required by programs utilizing
+libiso5436-2 (), so treat it all as mandatory. Cf. example section.
 }
 \examples{
-Comming soon.
+file.path <- system.file("extdata", "glock.x3p", package="x3pr")
+glock.x3p.info <- read.x3p(file.path)
+
+this.header.info<-list(
+  surf.type      =   "SUR",
+  x.axis.type    = "I",
+  x.data.type    = "F",
+  xinc           = glock.x3p.info[[1]]$x.inc*1e-6,
+  x.offset       = 0.0,
+  y.axis.type    = "I",
+  y.data.type    = "F",
+  yinc           = glock.x3p.info[[1]]$y.inc*1e-6,
+  y.offset       = 0.0,
+  z.axis.type    = "A",
+  z.data.type    = "F",
+  zinc           = "NA",
+  z.offset       = 0.0,
+  who.wrote.file = "abe[-at-]potus.gov",
+  manufacturer   = "Leitz",
+  model          = "Model-A",
+  sn             = "A113",
+  vers           = "Version: 2001-C.E.",
+  cal.dte        = "2013-08-15T08:00:00-03:00",
+  probe.type     = "NonContacting",
+  probe.id       = "Interferometer",
+  meas.comment   = comment.block<-list(
+    paste("Surface is from: "," an object, ",sep=""),
+    paste("Surface category: ","It was the left chunk, ",sep=""),
+    paste("Surface sample#: ",3,", ",sep=""),
+    paste("Droupouts/Outliers filled with ..., ",sep=""),
+    paste("Estimated Resolution x (meters) ", glock.x3p.info[[1]]$x.inc*1e-6, ", ",sep=""),
+    paste("Estimated Resolution y (meters) ", glock.x3p.info[[1]]$y.inc*1e-6, ", ",sep=""),
+    paste("Estimated Resolution z (meters) ", "Not Applicable, z-heights stored as doubles.", ", ",sep=""),
+    paste("Form removed?: ", "YesOrNo, ",sep=""),
+    paste("Filter ", "Type: None/", "Cutoffs: None, ",sep=""),
+    paste("Microscope Objective: ", "50x/","0.8NA, ",sep=""),
+    paste("Invalid Pixel Value: ", NaN,sep="")),
+  pts.per.prof   = glock.x3p.info[[1]]$num.pts.line,
+  num.prof       = glock.x3p.info[[1]]$num.lines,
+  z.format       = 1)
+
+write.x3p(this.header.info, glock.x3p.info[[2]], fname="testfile.x3p", move.to.directory=getwd(), print.diagnosticsQ=TRUE)
 }
 \references{
 http://open-gps.sourceforge.net/

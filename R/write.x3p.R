@@ -3,10 +3,11 @@
 #'
 #' @description Write a x3p format file.
 #' 
-#' @details Write a x3p format file.
-#'
-#' @param x3p.header.info.list XXXXXXXXXXX
-#' @param surface.mat XXXXXXXXXXX
+#' @details Write a x3p format file. Some of the header information is mandatory as required by programs utilizing
+#' libiso5436-2 (), so treat it all as mandatory. Cf. example section.
+#' 
+#' @param x3p.header.info.list header information that will go into main.xml.
+#' @param surface.mat the surface to save in matrix form.
 #' @param fname desired .x3p file name
 #' @param move.to.directory desired place to put the .x3p file
 #' 
