@@ -55,7 +55,7 @@
 #'   paste("Microscope Objective: ", "50x/","0.8NA, ",sep=""),
 #'   paste("Invalid Pixel Value: ", NaN,sep=""))
 #'  
-#'  sur2x3p.file(glock.sur.info, generic.header.info, comment.block, fname="testfile.x3p", move.to.directory=getwd())
+#'  sur2x3p.file(glock.sur.info, extra.header.info, comment.block, fname="testfile.x3p", move.to.directory=getwd())
 #--------------------------------------------
 sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, move.to.directory){
   
@@ -67,6 +67,9 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
     print("Not supported")    #FIX ME
   }
   
+  #We need this for the file seperators:
+  os.typ <- .Platform$OS.type
+  
   x.inc <- head.info["x.inc"][[1]]/1000 #convert mm to m #FIX ME ADD ERROR TRAP! IMPROVE
   y.inc <- head.info["y.inc"][[1]]/1000 #convert mm to m #FIX ME ADD ERROR TRAP! IMPROVE
   z.inc <- head.info["z.inc"][[1]]/1000 #?? unit ?? FIX ME ADD ERROR TRAP! IMPROVE
@@ -74,14 +77,26 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
   num.profile <- head.info["num.lines"]           #FIX ME COMPARE TO DIMS OF surface matrix IMPROVE
   z.off <- head.info[["z.off"]][[1]]
   
-  data.fpath <- paste(tempdir(),"/ftmp/bindata/data.bin",sep="")
-  #print(data.fpath)
+  if(os.typ=="windows"){
+    data.fpath <- paste(tempdir(),"\\ftmp\\bindata\\data.bin",sep="")
+  } else if(os.typ=="unix"){
+    data.fpath <- paste(tempdir(),"/ftmp/bindata/data.bin",sep="")
+  } else {
+    stop(paste("O.S. not recognized:",os.typ))
+  }
   
   #Make a temp directory for file assembly
-  system(paste("rm -rf",paste(tempdir(),"/ftmp/",sep=""))) #Remove directory structure if it is there first.
-  system(paste("mkdir",paste(tempdir(),"/ftmp/",sep="")))
-  system(paste("mkdir",paste(tempdir(),"/ftmp/bindata/",sep="")))
-  
+  if(os.typ=="windows"){
+    system(paste("rm -rf",paste(tempdir(),"\\ftmp\\",sep=""))) #Remove directory structure if it is there first.
+    system(paste("mkdir",paste(tempdir(),"\\ftmp\\",sep="")))
+    system(paste("mkdir",paste(tempdir(),"\\ftmp\bindata\\",sep="")))
+  }
+  if(os.typ=="unix"){
+    system(paste("rm -rf",paste(tempdir(),"/ftmp/",sep=""))) #Remove directory structure if it is there first.
+    system(paste("mkdir",paste(tempdir(),"/ftmp/",sep="")))
+    system(paste("mkdir",paste(tempdir(),"/ftmp/bindata/",sep="")))
+  } 
+    
   fptr <- file(data.fpath, "wb")
   #Assumes data to be written is in units of um. IMPROVE.
   writeBin(1e-6 * as.numeric(t(surf.info[[2]])), data.fpath, size=4)
@@ -131,17 +146,38 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
   )
   options(warn=1) #Turn warnings on again
   
-  saveXML(main.xml,file=paste(tempdir(),"/ftmp/main.xml",sep=""))
+  if(os.typ=="windows"){
+    saveXML(main.xml,file=paste(tempdir(),"\\ftmp\\main.xml",sep=""))
+  }
+  if(os.typ=="unix"){
+    saveXML(main.xml,file=paste(tempdir(),"/ftmp/main.xml",sep=""))
+  } 
   
   #chk.sum.main <- strsplit(system(paste("md5",paste(tempdir(),"/ftmp/main.xml",sep="")),intern=T)," ")[[1]][4]
-  chk.sum.main <- tools::md5sum(paste(tempdir(),"/ftmp/main.xml",sep=""))
-  write(chk.sum.main, paste(tempdir(),"/ftmp/md5checksum.hex",sep=""))
+  if(os.typ=="windows"){
+    chk.sum.main <- tools::md5sum(paste(tempdir(),"\\ftmp\\main.xml",sep=""))
+    write(chk.sum.main, paste(tempdir(),"\\ftmp\\md5checksum.hex",sep=""))
+    
+    system(paste("cd", paste(tempdir(),"\\ftmp\\;",sep=""),
+                 paste("zip", fname, "bindata\\data.bin main.xml md5checksum.hex;"),
+                 paste("mv",fname,move.to.directory) 
+    ))
+    
+    system(paste("rm -rf",paste(tempdir(),"\\ftmp\\",sep=""))) #Remove directory structure
+  }
   
-  system(paste("cd", paste(tempdir(),"/ftmp/;",sep=""),
-               paste("zip", fname, "bindata/data.bin main.xml md5checksum.hex;"),
-               paste("mv",fname,move.to.directory) 
-  ))
+  if(os.typ=="unix"){
+    chk.sum.main <- tools::md5sum(paste(tempdir(),"/ftmp/main.xml",sep=""))
+    write(chk.sum.main, paste(tempdir(),"/ftmp/md5checksum.hex",sep=""))
+    
+    system(paste("cd", paste(tempdir(),"/ftmp/;",sep=""),
+                 paste("zip", fname, "bindata/data.bin main.xml md5checksum.hex;"),
+                 paste("mv",fname,move.to.directory) 
+    ))
+    
+    system(paste("rm -rf",paste(tempdir(),"/ftmp/",sep=""))) #Remove directory structure
+  }
   
-  system(paste("rm -rf",paste(tempdir(),"/ftmp/",sep=""))) #Remove directory structure
-  
+  print(paste("Wrote file to directory:",move.to.directory))
+
 }
