@@ -132,7 +132,8 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
   
   saveXML(main.xml,file=paste(tempdir(),"/ftmp/main.xml",sep=""))
   
-  chk.sum.main <- strsplit(system(paste("md5",paste(tempdir(),"/ftmp/main.xml",sep="")),intern=T)," ")[[1]][4]
+  #chk.sum.main <- strsplit(system(paste("md5",paste(tempdir(),"/ftmp/main.xml",sep="")),intern=T)," ")[[1]][4]
+  chk.sum.main <- tools::md5sum(paste(tempdir(),"/ftmp/main.xml",sep=""))
   write(chk.sum.main, paste(tempdir(),"/ftmp/md5checksum.hex",sep=""))
   
   system(paste("cd", paste(tempdir(),"/ftmp/;",sep=""),
