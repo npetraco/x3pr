@@ -89,7 +89,7 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
   if(os.typ=="windows"){
     system(paste("rm -rf",paste(tempdir(),"\\ftmp\\",sep=""))) #Remove directory structure if it is there first.
     system(paste("mkdir",paste(tempdir(),"\\ftmp\\",sep="")))
-    system(paste("mkdir",paste(tempdir(),"\\ftmp\bindata\\",sep="")))
+    system(paste("mkdir",paste(tempdir(),"\\ftmp\\bindata\\",sep="")))
   }
   if(os.typ=="unix"){
     system(paste("rm -rf",paste(tempdir(),"/ftmp/",sep=""))) #Remove directory structure if it is there first.
