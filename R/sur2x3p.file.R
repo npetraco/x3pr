@@ -67,11 +67,8 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
     stop("Not supported")    #FIX ME
   }
   
-  #We need this for the file seperators:
+  #We need this for the file seperators and some Windows console qurks:
   os.typ <- .Platform$OS.type
-  #if(os.typ=="windows"){
-  #  stop("This function does not work on windows yet...")
-  #}
   
   x.inc <- head.info["x.inc"][[1]]/1000 #convert mm to m #FIX ME ADD ERROR TRAP! IMPROVE
   y.inc <- head.info["y.inc"][[1]]/1000 #convert mm to m #FIX ME ADD ERROR TRAP! IMPROVE
@@ -107,7 +104,6 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
   
   #chk.sum <- strsplit(system(paste("md5",data.fpath),intern=T)," ")[[1]][4]
   chk.sum <- tools::md5sum(data.fpath)
-  #print(chk.sum)
   
   #This is the format of the date/time in main.xml:
   tme.stmp <- strsplit(as.character(Sys.time()), " ")[[1]]
@@ -156,23 +152,23 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
     saveXML(main.xml,file=paste(tempdir(),"/ftmp/main.xml",sep=""))
   } 
   
-  #chk.sum.main <- strsplit(system(paste("md5",paste(tempdir(),"/ftmp/main.xml",sep="")),intern=T)," ")[[1]][4]
   if(os.typ=="windows"){
-    chk.sum.main <- tools::md5sum(paste(tempdir(),"\\ftmp\\main.xml",sep=""))
+    chk.sum.main <- md5sum(paste(tempdir(),"\\ftmp\\main.xml",sep=""))
     write(chk.sum.main, paste(tempdir(),"\\ftmp\\md5checksum.hex",sep=""))
     
     orig.dir <- getwd()
+    orig.move.to.dir <- move.to.directory #With the way we are switching working directories below, this can get changed if move.to.directory == getwd(). So, save what it was sent in as.
     setwd(paste(tempdir(),"\\ftmp",sep=""))
     
     system(paste("zip", fname, "bindata/data.bin main.xml md5checksum.hex"))
-    system(paste("mv ",fname," ",move.to.directory,sep=""))
+    system(paste("mv ",fname," ", orig.move.to.dir,sep=""))
     
     setwd(orig.dir)
     system(paste("rm -rf",paste(tempdir(),"\\ftmp",sep="")))
   }
   
   if(os.typ=="unix"){
-    chk.sum.main <- tools::md5sum(paste(tempdir(),"/ftmp/main.xml",sep=""))
+    chk.sum.main <- md5sum(paste(tempdir(),"/ftmp/main.xml",sep=""))
     write(chk.sum.main, paste(tempdir(),"/ftmp/md5checksum.hex",sep=""))
     
     system(paste("cd", paste(tempdir(),"/ftmp/;",sep=""),
@@ -183,6 +179,6 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
     system(paste("rm -rf",paste(tempdir(),"/ftmp/",sep=""))) #Remove directory structure
   }
   
-  print(paste("Wrote file to directory:",move.to.directory))
+  print(paste("Wrote file:", fname, "to directory:",move.to.directory))
 
 }

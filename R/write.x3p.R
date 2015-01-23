@@ -144,15 +144,30 @@ write.x3p <- function(x3p.header.info.list, surface.mat, fname, move.to.director
   chk.sum.main <- md5sum(paste(tempdir(),fs,"ftmp",fs,"main.xml",sep=""))
   write(chk.sum.main, paste(tempdir(),fs,"ftmp",fs,"md5checksum.hex",sep=""))
   
-  system(paste("cd", paste(tempdir(),fs,"ftmp",fs,";",sep=""),
-               paste("zip ", fname, " bindata",fs,"data.bin main.xml md5checksum.hex;",sep=""),
-               paste("mv",fname,move.to.directory) 
-  ))
+  if(os.typ=="windows"){
+    chk.sum.main <- md5sum(paste(tempdir(),"\\ftmp\\main.xml",sep=""))
+    write(chk.sum.main, paste(tempdir(),"\\ftmp\\md5checksum.hex",sep=""))
+    
+    orig.dir <- getwd()
+    orig.move.to.dir <- move.to.directory #With the way we are switching working directories below, this can get changed if move.to.directory == getwd(). So, save what it was sent in as.
+    setwd(paste(tempdir(),"\\ftmp",sep=""))
+    
+    system(paste("zip", fname, "bindata/data.bin main.xml md5checksum.hex"))
+    system(paste("mv ",fname," ",orig.move.to.dir,sep=""))
+    
+    setwd(orig.dir)
+    system(paste("rm -rf",paste(tempdir(),"\\ftmp",sep="")))
+  }
   
-  system(paste("rm -rf",paste(tempdir(),fs,"ftmp",fs,sep=""))) #Remove directory structure
+  if(os.typ=="unix"){
+    system(paste("cd", paste(tempdir(),fs,"ftmp",fs,";",sep=""),
+                 paste("zip ", fname, " bindata",fs,"data.bin main.xml md5checksum.hex;",sep=""),
+                 paste("mv",fname,move.to.directory) 
+    ))
+    
+    system(paste("rm -rf",paste(tempdir(),fs,"ftmp",fs,sep=""))) #Remove directory structure
+  }
   
-  print(paste("Wrote file to directory:",move.to.directory))
+  print(paste("Wrote file:", fname, "to directory:",move.to.directory))
   
 }
-  
-  
