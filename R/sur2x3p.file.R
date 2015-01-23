@@ -64,11 +64,14 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
   if(head.info["stud.typ"]==2){
     sur.type = "SUR"
   } else {
-    print("Not supported")    #FIX ME
+    stop("Not supported")    #FIX ME
   }
   
   #We need this for the file seperators:
   os.typ <- .Platform$OS.type
+  #if(os.typ=="windows"){
+  #  stop("This function does not work on windows yet...")
+  #}
   
   x.inc <- head.info["x.inc"][[1]]/1000 #convert mm to m #FIX ME ADD ERROR TRAP! IMPROVE
   y.inc <- head.info["y.inc"][[1]]/1000 #convert mm to m #FIX ME ADD ERROR TRAP! IMPROVE
@@ -158,12 +161,14 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
     chk.sum.main <- tools::md5sum(paste(tempdir(),"\\ftmp\\main.xml",sep=""))
     write(chk.sum.main, paste(tempdir(),"\\ftmp\\md5checksum.hex",sep=""))
     
-    system(paste("cd", paste(tempdir(),"\\ftmp\\;",sep=""),
-                 paste("zip", fname, "bindata\\data.bin main.xml md5checksum.hex;"),
-                 paste("mv",fname,move.to.directory) 
-    ))
+    orig.dir <- getwd()
+    setwd(paste(tempdir(),"\\ftmp",sep=""))
     
-    system(paste("rm -rf",paste(tempdir(),"\\ftmp\\",sep=""))) #Remove directory structure
+    system(paste("zip", fname, "bindata/data.bin main.xml md5checksum.hex"))
+    system(paste("mv ",fname," ",move.to.directory,sep=""))
+    
+    setwd(orig.dir)
+    system(paste("rm -rf",paste(tempdir(),"\\ftmp",sep="")))
   }
   
   if(os.typ=="unix"){
@@ -172,7 +177,7 @@ sur2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, m
     
     system(paste("cd", paste(tempdir(),"/ftmp/;",sep=""),
                  paste("zip", fname, "bindata/data.bin main.xml md5checksum.hex;"),
-                 paste("mv",fname,move.to.directory) 
+                 paste("cp",fname,move.to.directory) 
     ))
     
     system(paste("rm -rf",paste(tempdir(),"/ftmp/",sep=""))) #Remove directory structure
