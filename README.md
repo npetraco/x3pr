@@ -6,7 +6,8 @@ and http://cran.r-project.org/web/packages/devtools/index.html.
 
 * If you haven't already done so, first install R (http://www.r-project.org/) and then RStudio (http://www.rstudio.com/) for your operating system. Note that both are open-source (and thus peer-reviewed, ...many times over...) and free. 
 
-* Install devtools in your R distribution (devtools is up on CRAN now, so executing install.packages("devtools") in the RStudio Console window should suffice).
+* Install devtools in your R distribution. In the RStudio Console window type:
+  * install.packages("devtools")
 
 * Windows users: Install Rtools 3.1 as recommended by the devtools package: http://cran.r-project.org/bin/windows/Rtools/ 
 
@@ -14,7 +15,6 @@ and http://cran.r-project.org/web/packages/devtools/index.html.
 
 * Install the required support packages for x3pr. In the RStudio Console window, execute:
   * install.packages("XML")
-  * install.packages("tools")
   * install.packages("rgl")
   * install.packages("akima")
 
