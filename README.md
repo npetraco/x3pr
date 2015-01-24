@@ -10,6 +10,8 @@ and http://cran.r-project.org/web/packages/devtools/index.html.
 
 * Windows users: Install Rtools 3.1 as recommended by the devtools package: http://cran.r-project.org/bin/windows/Rtools/ 
 
+* Mac users: Make sure to install XQuartz (http://xquartz.macosforge.org/trac) which is required by rgl.
+
 * Install the required support packages for x3pr. In the RStudio Console window, execute:
   * install.packages("XML")
   * install.packages("tools")
@@ -24,3 +26,13 @@ Examples are provided in the help pages. If you are new to R, below is an exampl
 * Reads in the example X3P file shipped with the package (glock.x3p)
 * Prints out the header information in the file
 * Plots the surface (a primer shear) in interactive 3D
+
+`library(x3pr)`
+
+`file.path <- system.file("extdata", "glock.x3p", package="x3pr")`
+
+`glock.x3p.info <- read.x3p(file.path)`
+
+`print.x3p.file.info(glock.x3p.info[[1]])`
+
+`plot3D.x3p.file(glock.x3p.info, 1024, 80, aspect=c(1,3,0.4), plot.type="surface")`
