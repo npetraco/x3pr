@@ -9,20 +9,33 @@ shinyServer(function(input, output) {
     inFile <- input$surface  
     if (is.null(inFile))
       return(NULL)  
-    #loadHuginNet(file=inFile$datapath)
-    #surface.info <- read.digital.surf.file(inFile$datapath)
-    surface.info <- read.x3p(inFile$datapath)
+    
+    ftype.ext <- tolower(unlist(strsplit(inFile$name,"[.]"))[2])
+    if(ftype.ext =="x3p"){
+      surface.info <- read.x3p(inFile$datapath)
+    } else if(ftype.ext =="sur") {
+      surface.info <- read.digital.surf.file(inFile$datapath)
+    } else if(ftype.ext =="lms") {
+      surface.info <- read.zeiss.lms.file(inFile$datapath)
+    } else {
+      return(NULL)
+    }
+    
     return(surface.info)
   })  
   
 #   output$header <- renderPrint({
-#     #surf.all <- theSurface()    
-#     #surf.all[[1]]
-#     theSurface()[[1]]
-#   })
+#     #theSurface()[[1]]
+#     inFile$datapath
+#   })  
   
   output$plot <- renderWebGL({
-    plot.surface(theSurface(), 512, 80, aspect=c(1,3,0.4), plot.type="surface")
+    if(is.null(theSurface())){
+      #return()#Don't do anything
+      plot3d(NULL,NULL,NULL)
+    } else {
+      plot.surface(theSurface(), 512, 80, aspect=c(1,3,0.4), plot.type="surface")
+    }
   })
   
 })

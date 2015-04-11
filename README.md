@@ -13,7 +13,7 @@ and http://cran.r-project.org/web/packages/devtools/index.html.
 
 * Mac users: Make sure to install XQuartz (http://xquartz.macosforge.org/trac) which is required by rgl.
 
-* Linux users: Being singularly DIY, you pbobably are ok. But, ... just incase ... make gcc is installed and running. Any toolchain should suffice however.
+* Linux users: Being singularly DIY, you are probably ok. But, ... just incase ... make gcc is installed and running. Any toolchain should suffice however.
 
 * Install the required support packages for x3pr. In the RStudio Console window, execute:
   * install.packages("XML")

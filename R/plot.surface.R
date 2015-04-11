@@ -30,7 +30,7 @@ plot.surface<-function(surf.file.info, num.x.pts=NULL, num.slices=NULL, aspect=c
   #print(head.info)
   surf.mat<-surf.file.info[[2]]
   
-  print(head.info["num.pts.line"])
+  #print(head.info["num.pts.line"])
   
   #Downsample the surface points for faster plotting:
   if(is.null(num.x.pts)){
