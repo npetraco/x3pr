@@ -18,7 +18,7 @@
 read.zeiss.lms.header<-function(pt)
 {
  
-  stop("NOT WORKING")
+  #stop("NOT WORKING")
   
   #1
   seek(pt, where = 0, rw="r")
@@ -366,6 +366,27 @@ read.zeiss.lms.header<-function(pt)
   
   offset.to.img2 <- 406+bisizeimg1
   
+  #*************For compatibility of many functions from profiles:
+  if(img1.style == 2) {
+    
+    num.pts.line <- biwidth1
+    num.lines <- biheight1
+    x.inc <- width.inc
+    y.inc <- width.inc
+    z.inc <- height.inc    
+    
+  } else if(img2.style == 2) {
+    
+    num.pts.line <- biwidth2
+    num.lines <- biheight2
+    x.inc <- width.inc
+    y.inc <- width.inc
+    z.inc <- height.inc
+    
+  } else {
+    stop("Problem determing which image is the z-height data!!!!!!")
+  }
+  
   header.info<-list(
     file.size,
     file.type,
@@ -428,7 +449,12 @@ read.zeiss.lms.header<-function(pt)
     bixppm2,
     biyppm2,
     bicolorused2,
-    bicolorimportant2
+    bicolorimportant2,
+    num.pts.line, #These are for compatability with old profiles codes
+    num.lines,
+    x.inc,
+    y.inc,
+    z.inc
   )
   
   names(header.info)<-c(
@@ -493,7 +519,12 @@ read.zeiss.lms.header<-function(pt)
     "bixppm2",
     "biyppm2",
     "bicolorused2",
-    "bicolorimportant2"
+    "bicolorimportant2",
+    "num.pts.line", #These are for compatability with old profiles codes
+    "num.lines",
+    "x.inc",
+    "y.inc",
+    "z.inc"
     )
 
   return(header.info)

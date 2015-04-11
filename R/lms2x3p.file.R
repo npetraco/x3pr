@@ -1,24 +1,56 @@
 #--------------------------------------------
-# @title Convert a Zeiss LMS file to an X3P format.
+#' @title Convert a Zeiss LMS file to an X3P format.
+#'
+#' @description Convert a Zeiss LMS file to an X3P format.
+#' 
+#' @details Convert a Zeiss LMS file to an X3P format and writes the result to file. \code{move.to.directory}
+#' is the path where to move the file. The file itself is initiall written to \code{tempdir()}.
+#'
+#' @param  surf.info surface information returned from read.zeiss.lms.file
+#' @param  extra.file.info.list extra information required by ISO standards 
+#' @param  comment.list optional comments on how the data was obtained.
+#' @param  fname name for the .x3p file to be written
+#' @param  move.to.directory path where to move the file. 
+#' @return Nothing.
 #
-# @description Convert a Zeiss LMS file to an X3P format.
-# 
-# @details Convert a Zeiss LMS file to an X3P format and writes the result to file. \code{move.to.directory}
-# is the path where to move the file. The file itself is initiall written to \code{tempdir()}.
-#
-# @param  surf.info surface information returned from read.zeiss.lms.file
-# @param  extra.file.info.list extra information required by ISO standards 
-# @param  comment.list optional comments on how the data was obtained.
-# @param  fname name for the .x3p file to be written
-# @param  move.to.directory path where to move the file. 
-# @return Nothing.
-#
-# @examples
-# Coming soon.
-#
-# \dontrun{
-#  
-# }
+#' @examples
+#' file.path <- system.file("extdata", "glock.lms", package="x3pr")
+#' glock.lms.info <- read.zeiss.lms.file(file.path)
+#' 
+#' extra.header.info <- list(
+#'   x.axis.type = "I",
+#'   x.data.type = "F",
+#'   x.offset =    0.0,
+#'   y.axis.type = "I",
+#'   y.data.type = "F",
+#'   y.offset    = 0.0,
+#'   z.axis.type = "A",
+#'   z.data.type = "F",
+#'   z.offset    = 0.0,
+#'   who.wrote.file = "abe[-at-]potus.gov ",
+#'   manufacturer   = "Leitz",
+#'   model = "Model-A",
+#'   sn = "8675309",
+#'   vers = "Version: 2010-C.E.",
+#'   cal.dte = "2013-08-15T08:00:00-03:00",
+#'   probe.type = "NonContacting",
+#'   probe.id = "Interferometer",
+#'   z.format = 1)
+#'
+#'  comment.block<-list(
+#'   paste("Surface is from: "," an object, ",sep=""),        
+#'   paste("Surface category: ","It was the left chunk, ",sep=""),
+#'   paste("Surface sample#: ",3,", ",sep=""),             
+#'   paste("Droupouts/Outliers filled with ..., ",sep=""),
+#'   paste("Estimated Resolution x (meters) ", glock.lms.info[[1]]$x.inc/1000, ", ",sep=""),
+#'   paste("Estimated Resolution y (meters) ", glock.lms.info[[1]]$y.inc/1000, ", ",sep=""),
+#'   paste("Estimated Resolution z (meters) ", glock.lms.info[[1]]$z.inc/1000, ", ",sep=""),
+#'   paste("Form removed?: ", "YesOrNo, ",sep=""),
+#'   paste("Filter ", "Type: None/", "Cutoffs: None, ",sep=""),
+#'   paste("Microscope Objective: ", "50x/","0.8NA, ",sep=""),
+#'   paste("Invalid Pixel Value: ", NaN,sep=""))
+#'  
+#'  lms2x3p.file(glock.sur.info, extra.header.info, comment.block, fname="testfile.x3p", move.to.directory=getwd())
 #--------------------------------------------
 lms2x3p.file <- function(surf.info, extra.file.info.list, comment.list, fname, move.to.directory){
   
