@@ -1,10 +1,10 @@
 # x3pr 
 
-Basic read/write utilities for the x3p surface metrology format in R. The package is not up on CRAN yet. 
+Basic read/write utilities for the x3p surface metrology format in R. The package also supports the DigitalSurf .sur () and Zeiss LMS format for the CSM-700 confocal microscope (Warning: still buggy). The package is not up on CRAN yet. 
 The best way to install x3pr is with Hadley Wickham's devtools: https://github.com/hadley/devtools 
 and http://cran.r-project.org/web/packages/devtools/index.html. 
 
-* If you haven't already done so, first install R (http://www.r-project.org/) and then RStudio (http://www.rstudio.com/) for your operating system. Note that both are open-source (and thus peer-reviewed, ...many times over...) and free. 
+* If you haven't already done so, first install R (http://www.r-project.org/) and then RStudio (http://www.rstudio.com/) for your operating system. Note that both are open-source (and thus peer-reviewed, ...many times over if that is a concern) and free. 
 
 * Install devtools in your R distribution. In the RStudio Console window type:
   * install.packages("devtools")
@@ -13,10 +13,13 @@ and http://cran.r-project.org/web/packages/devtools/index.html.
 
 * Mac users: Make sure to install XQuartz (http://xquartz.macosforge.org/trac) which is required by rgl.
 
+* Linux users: Being singularly DIY, you pbobably are ok. But, ... just incase ... make gcc is installed and running. Any toolchain should suffice however.
+
 * Install the required support packages for x3pr. In the RStudio Console window, execute:
   * install.packages("XML")
   * install.packages("rgl")
   * install.packages("akima")
+  * install.packages("shiny")
 
 * Finally, in the RStudio Console window execute: install_github("npetraco/x3pr").
 
