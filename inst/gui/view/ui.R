@@ -10,9 +10,8 @@ shinyUI(fluidPage(
     sidebarPanel(
       fileInput(inputId = "surface", label = "Choose a surface", accept = "surface"),
       
-      #Once the file is selected generate sliders for the resolution:
-      uiOutput("slider.xpts"),
-      uiOutput("slider.ypts")
+      #Once the file is selected generate sliders:
+      uiOutput("slider.zmag")
       
     ),
     
@@ -20,7 +19,7 @@ shinyUI(fluidPage(
     mainPanel(
     
       #h3(textOutput("header"))
-      webGLOutput("plot", width="100%", height="800px")
+      webGLOutput("plot", width="100%", height="600px")
           
     )
   )
