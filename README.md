@@ -13,13 +13,15 @@ and http://cran.r-project.org/web/packages/devtools/index.html.
 
 * Mac users: Make sure to install XQuartz (http://xquartz.macosforge.org/trac) which is required by rgl.
 
-* Linux users: Being singularly DIY, you are probably ok. But, ... just incase ... make gcc is installed and running. Any toolchain should suffice however.
+* Linux users: Being singularly DIY, you are probably ok. But, ... just incase ... make gcc is installed and running. Any toolchain should suffice however. For shinyRGL, try to install from git directly: http://trestletech.github.io/shinyRGL/
+  * There is no shinyRGL for Linux up on CRAN
 
 * Install the required support packages for x3pr. In the RStudio Console window, execute:
   * install.packages("XML")
   * install.packages("rgl")
   * install.packages("akima")
   * install.packages("shiny")
+  * install.packages("shinyRGL") (Windows and Mac only...)
 
 * Finally, in the RStudio Console window execute: install_github("npetraco/x3pr").
 

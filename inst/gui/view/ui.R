@@ -1,4 +1,6 @@
 library(shinyRGL)
+source(system.file("gui/view", "helpers.R", package="x3pr"))
+
 
 shinyUI(fluidPage(
   

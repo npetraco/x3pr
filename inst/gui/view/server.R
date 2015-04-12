@@ -31,10 +31,25 @@ shinyServer(function(input, output) {
   
   output$plot <- renderWebGL({
     if(is.null(theSurface())){
-      #return()#Don't do anything
       plot3d(NULL,NULL,NULL)
     } else {
-      plot.surface(theSurface(), 512, 80, aspect=c(1,3,0.4), plot.type="surface")
+      si <- theSurface()
+      ini.res <- resolution.initalizer(si[[2]])
+      if(min(ini.res)/max(ini.res) < 0.5) { #surface is pretty retangular. Start with this aspect ratio:
+        
+        lng.side <- which(ini.res == max(ini.res))
+        if(lng.side == 2) {
+          ini.asp <- c(1,3,0.4)
+        } else {
+          ini.asp <- c(3,1,0.4)
+        }
+        
+      } else { #surface is pretty square. Start with this aspect ratio:
+        ini.asp <- c(1,1,0.4)
+      }
+      
+      plot.surface(si, ini.res[2], ini.res[1], aspect=ini.asp, plot.type="surface")
+      
     }
   })
   
