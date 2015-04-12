@@ -52,19 +52,19 @@ plot.surface<-function(surf.file.info, num.x.pts=NULL, num.slices=NULL, aspect=c
   
   tot.num.pts <- length(dec.col.idxs)*length(dec.row.idxs)
   
-  print(paste("# y-points: ",length(dec.row.idxs)))
-  print(paste("# x-points: ",length(dec.col.idxs)))
-  print(paste("Total # points: ", tot.num.pts))
-  
-  #More than 100,000 pts? Ask to plot.
-  if(tot.num.pts>=65536){
-    print("Lots of points. May be slow and Browser may not support it (shiny apps). Sure you want to do this? (y/n)")
-    ans <- readline()
-    if(ans=="n") {
-      print("OK. Won't try to plot.")
-      return()
-    }
-  }  
+#   print(paste("# y-points: ",length(dec.row.idxs)))
+#   print(paste("# x-points: ",length(dec.col.idxs)))
+#   print(paste("Total # points: ", tot.num.pts))
+#   
+#   #More than 100,000 pts? Ask to plot.
+#   if(tot.num.pts>=65536){
+#     print("Lots of points. May be slow and Browser may not support it (shiny apps). Sure you want to do this? (y/n)")
+#     ans <- readline()
+#     if(ans=="n") {
+#       print("OK. Won't try to plot.")
+#       return()
+#     }
+#   }  
   
   decimated.surf.mat<-surf.mat[dec.row.idxs,dec.col.idxs]
   

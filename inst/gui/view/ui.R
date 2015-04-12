@@ -5,14 +5,18 @@ source(system.file("gui/view", "helpers.R", package="x3pr"))
 shinyUI(fluidPage(
   
   titlePanel("View Surface"),
-  #Load a network
+  #Sidebar controls:
   sidebarLayout(
     sidebarPanel(
       fileInput(inputId = "surface", label = "Choose a surface", accept = "surface"),
       
-      sliderInput("slider.xpts", label = h3("x-resolution (pts)"), min = 1, max = 100, value = 50)
+      #Once the file is selected generate sliders for the resolution:
+      uiOutput("slider.xpts"),
+      uiOutput("slider.ypts")
+      
     ),
     
+    #Main Panel:
     mainPanel(
     
       #h3(textOutput("header"))

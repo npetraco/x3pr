@@ -1,3 +1,8 @@
+#--------------------------------------------
+# This sets a (hopefully) reasonable resolution
+# for the number of points to plot for a surface
+# in the shinyRGL based viewer.
+#--------------------------------------------
 resolution.initalizer <- function(surf.mat){
   
   leng <- dim(surf.mat)[1]
