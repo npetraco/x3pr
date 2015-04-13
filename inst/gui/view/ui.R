@@ -11,7 +11,9 @@ shinyUI(fluidPage(
       fileInput(inputId = "surface", label = "Choose a surface", accept = "surface"),
       
       #Once the file is selected generate sliders:
-      uiOutput("slider.zmag")
+      uiOutput("slider.zmag"),
+      uiOutput("slider.theta"),
+      uiOutput("slider.phi")
       
     ),
     
