@@ -35,6 +35,7 @@ read.x3p<-function(fpath){
   
   #Surface or profile?
   FeatureType <- xmlValue(rec1$children$FeatureType)
+  #print(FeatureType)
   
   #x-axis inforamtion
   tmp <-xmlChildren(rec1$children$Axes$children$CX)
@@ -80,14 +81,21 @@ read.x3p<-function(fpath){
   #print(date.info)
   
   #Get name of file creator:
-  tmp <-xmlChildren(rec2$children$Creator)
-  if(length(tmp)==0) {
-    creator.info <- list("No data set creator specified")
+  if( !is.null(rec2$children$Creator) ){
+    tmp <-xmlChildren(rec2$children$Creator)
+    if(length(tmp)==0) {
+      creator.info <- list("No data set creator specified")
+    } else {
+      creator.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(creator.info) <- "Data set creator"    
+    #print(creator.info)
   } else {
-    creator.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    print("No Creator field in Record 2")
+    creator.info <- "NULL"
+    names(creator.info) <- "Data set creator"    
+    #print(creator.info)
   }
-  names(creator.info) <- "Data set creator"    
-  #print(creator.info)
   
   # Instrument_Manufacturer:
   tmp <-xmlChildren(rec2$children$Instrument$children$Manufacturer)
@@ -160,15 +168,23 @@ read.x3p<-function(fpath){
   #print(prob.id.info)
   
   # Comment:
-  tmp <-xmlChildren(rec2$children$Comment)
-  if(length(tmp)==0) {
-    comment.info <- list("No Comments Given")
+  if(!is.null(rec2$children$Comment)){
+    tmp <-xmlChildren(rec2$children$Comment)
+    if(length(tmp)==0) {
+      comment.info <- list("No Comments Given")
+    } else {
+      comment.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(comment.info) <- "Comment"
+    #print(comment.info)
+    
   } else {
-    comment.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    print("No Comment field in Record 2")
+    comment.info <- "NULL"
+    names(comment.info) <- "Comment"
+    #print(comment.info)
   }
-  names(comment.info) <- "Comment"
-  #print(comment.info)
-  
+
   
   #Record 3 information
   

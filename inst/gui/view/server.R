@@ -33,6 +33,7 @@ shinyServer(function(input, output) {
     sliderInput("slider.zmag", label = h3("z-scale (%)"), min = 1, max = 100, value = 40)
   })
 
+  #Render UI slider for lighting theta.
   output$slider.theta <- renderUI({
     inFile <- input$surface  
     if (is.null(inFile))
@@ -40,7 +41,8 @@ shinyServer(function(input, output) {
   
     sliderInput("slider.theta", label = h3("theta (deg)"), min = 0, max = 180, value = 0)
   })
-
+  
+  #Render UI slider for lighting phi.
   output$slider.phi <- renderUI({
     inFile <- input$surface  
     if (is.null(inFile))
