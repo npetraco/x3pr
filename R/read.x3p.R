@@ -37,48 +37,83 @@ read.x3p<-function(fpath){
   FeatureType <- xmlValue(rec1$children$FeatureType)
   #print(FeatureType)
   
+  
   #x-axis inforamtion
-  tmp <-xmlChildren(rec1$children$Axes$children$CX)
-  if(length(tmp)==0) {
-    xaxis.info <- list(NA) #Note: if this is NA, there may be a problem
+  if(!is.null(rec1$children$Axes$children$CX)){
+    tmp <-xmlChildren(rec1$children$Axes$children$CX)
+    if(length(tmp)==0) {
+      xaxis.info <- list(NA) #Note: if this is NA, there may be a problem
+      print("X-axis information listed in main.xml, but it is empty!")
+    } else {
+      xaxis.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(xaxis.info) <- names(tmp)
+    #print(xaxis.info)
+    
   } else {
-    xaxis.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    warning("No x-axis information field in Record 1!")
+    xaxis.info <- "NULL"
+    names(xaxis.info) <- "x-axis.info"
   }
-  names(xaxis.info) <- names(tmp)
-  #print(xaxis.info)
+    
   
   #y-axis inforamtion
-  tmp <-xmlChildren(rec1$children$Axes$children$CY)
-  if(length(tmp)==0) {
-    yaxis.info <- list(NA) #Note: if this is NA, there may be a problem
+  if(!is.null(rec1$children$Axes$children$CY)) {
+    tmp <-xmlChildren(rec1$children$Axes$children$CY)
+    if(length(tmp)==0) {
+      yaxis.info <- list(NA) #Note: if this is NA, there may be a problem
+    } else {
+      yaxis.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(yaxis.info) <- names(tmp)
+    #print(yaxis.info)
+    
   } else {
-    yaxis.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    warning("No y-axis information field in Record 1!")
+    yaxis.info <- "NULL"
+    names(yaxis.info) <- "y-axis.info"
+    
   }
-  names(yaxis.info) <- names(tmp)
-  #print(yaxis.info)
+  
   
   #z-axis inforamtion
-  tmp <-xmlChildren(rec1$children$Axes$children$CZ)
-  if(length(tmp)==0) {
-    zaxis.info <- list(NA) #If this is NA, it probably means surface points are just stored as a vector. No increment strictly necessary
+  if(!is.null(rec1$children$Axes$children$CZ)) {
+    tmp <-xmlChildren(rec1$children$Axes$children$CZ)
+    if(length(tmp)==0) {
+      zaxis.info <- list(NA) #If this is NA, it probably means surface points are just stored as a vector. No increment strictly necessary
+    } else {
+      zaxis.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(zaxis.info) <- names(tmp)
+    #print(zaxis.info)
+    
   } else {
-    zaxis.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    stop("Critical! No z-axis information field in Record 1!")
+    #zaxis.info <- "NULL"
+    #names(zaxis.info) <- "z-axis.info"
+    
   }
-  names(zaxis.info) <- names(tmp)
-  #print(zaxis.info)
   
   
   #Record 2 information
   
   #Get date of file creation:
-  tmp <-xmlChildren(rec2$children$Date)
-  if(length(tmp)==0) {
-    date.info <- list("Date of creation specified")
+  if(!is.null(rec2$children$Date)) {
+    tmp <-xmlChildren(rec2$children$Date)
+    if(length(tmp)==0) {
+      date.info <- list("Date of creation specified")
+    } else {
+      date.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(date.info) <- "File creation date and time"
+    #print(date.info)
+    
   } else {
-    date.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    date.info <- "NULL"
+    names(date.info) <- "File creation date and time"
+    print("No file creation date in Record 2.")
   }
-  names(date.info) <- "File creation date and time"
-  #print(date.info)
+
   
   #Get name of file creator:
   if( !is.null(rec2$children$Creator) ){
@@ -90,82 +125,142 @@ read.x3p<-function(fpath){
     }
     names(creator.info) <- "Data set creator"    
     #print(creator.info)
+    
   } else {
     print("No Creator field in Record 2")
     creator.info <- "NULL"
     names(creator.info) <- "Data set creator"    
     #print(creator.info)
+    
   }
+  
   
   # Instrument_Manufacturer:
-  tmp <-xmlChildren(rec2$children$Instrument$children$Manufacturer)
-  if(length(tmp)==0) {
-    manufacturer.info <- list("No Instrument Manufacturer specified")
+  if(!is.null(rec2$children$Instrument$children$Manufacturer)) {
+    tmp <-xmlChildren(rec2$children$Instrument$children$Manufacturer)
+    if(length(tmp)==0) {
+      manufacturer.info <- list("No Instrument Manufacturer specified")
+    } else {
+      manufacturer.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(manufacturer.info) <- "Instrument Manufacturer"    
+    #print(manufacturer.info)
+    
   } else {
-    manufacturer.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    print("No Instrument Manufacturer field in Record 2.")
+    manufacturer.info <- "NULL"
+    names(manufacturer.info) <- "Instrument Manufacturer"
+    
   }
-  names(manufacturer.info) <- "Instrument Manufacturer"    
-  #print(manufacturer.info)
+  
   
   # Instrument_Model:
-  tmp <-xmlChildren(rec2$children$Instrument$children$Model)
-  if(length(tmp)==0) {
-    model.info <- list("No Instrument Model specified")
+  if(!is.null(rec2$children$Instrument$children$Model)) {
+    tmp <-xmlChildren(rec2$children$Instrument$children$Model)
+    if(length(tmp)==0) {
+      model.info <- list("No Instrument Model specified")
+    } else {
+      model.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(model.info) <- "Instrument Model"    
+    #print(model.info)
+    
   } else {
-    model.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    print("No Model Info field in Record 2.")
+    model.info <- "NULL"
+    names(model.info) <- "Instrument Model"
+    
   }
-  names(model.info) <- "Instrument Model"    
-  #print(model.info)
+  
   
   # Instrument_Serial:
-  tmp <-xmlChildren(rec2$children$Instrument$children$Serial)
-  if(length(tmp)==0) {
-    serial.number.info <- list("No Instrument Serial# specified")
+  if(!is.null(rec2$children$Instrument$children$Serial)){
+    tmp <-xmlChildren(rec2$children$Instrument$children$Serial)
+    if(length(tmp)==0) {
+      serial.number.info <- list("No Instrument Serial# specified")
+    } else {
+      serial.number.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(serial.number.info) <- "Instrument Serial#"    
+    #print(serial.number.info)
+    
   } else {
-    serial.number.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    print("No Serial Number field in Record 2.")
+    serial.number.info <- "NULL"
+    names(serial.number.info) <- "Instrument Serial#"    
+    
   }
-  names(serial.number.info) <- "Instrument Serial#"    
-  #print(serial.number.info)
+  
   
   # Instrument_Version:
-  tmp <-xmlChildren(rec2$children$Instrument$children$Version)
-  if(length(tmp)==0) {
-    version.info <- list("No Instrument Version specified")
+  if(!is.null(rec2$children$Instrument$children$Version)) {
+    tmp <-xmlChildren(rec2$children$Instrument$children$Version)
+    if(length(tmp)==0) {
+      version.info <- list("No Instrument Version specified")
+    } else {
+      version.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(version.info) <- "Instrument Version"
+    #print(version.info)
+    
   } else {
-    version.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    print("No Instrument Version field in Record 2.")
+    version.info <- "NULL"
+    names(version.info) <- "Instrument Version"
   }
-  names(version.info) <- "Instrument Version"
-  #print(version.info)
   
   # CalibrationDate:
-  tmp <-xmlChildren(rec2$children$CalibrationDate)
-  if(length(tmp)==0) {
-    calibration.date.info <- list("No Calibration Date specified")
+  if(!is.null(rec2$children$CalibrationDate)) {
+    tmp <-xmlChildren(rec2$children$CalibrationDate)
+    if(length(tmp)==0) {
+      calibration.date.info <- list("No Calibration Date specified")
+    } else {
+      calibration.date.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(calibration.date.info) <- "Instrument Calibration Date"
+    #print(calibration.date.info)
+    
   } else {
-    calibration.date.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    calibration.date.info <- "NULL"
+    names(calibration.date.info) <- "Instrument Calibration Date"
+    print("No Instrument Calibration Date field in Record 2.")
+    
   }
-  names(calibration.date.info) <- "Instrument Calibration Date"
-  #print(calibration.date.info)
+  
   
   # ProbingSystem_Type:
-  tmp <-xmlChildren(rec2$children$ProbingSystem$children$Type)
-  if(length(tmp)==0) {
-    prob.type.info <- list("No instrument probing system type specified")
+  if(!is.null(rec2$children$ProbingSystem$children$Type)) {
+    tmp <-xmlChildren(rec2$children$ProbingSystem$children$Type)
+    if(length(tmp)==0) {
+      prob.type.info <- list("No instrument probing system type specified")
+    } else {
+      prob.type.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(prob.type.info) <- "Instrument Probing System Type"
+    #print(prob.type.info)
+    
   } else {
-    prob.type.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    prob.type.info <- "NULL"
+    names(prob.type.info) <- "Instrument Probing System Type"
+    print("No Instrument Probe Type field in Record 2.")
   }
-  names(prob.type.info) <- "Instrument Probing System Type"
-  #print(prob.type.info)
   
   # ProbingSystem_Identification:
-  tmp <-xmlChildren(rec2$children$ProbingSystem$children$Identification)
-  if(length(tmp)==0) {
-    prob.id.info <- list("No probing system identification specified")
+  if(!is.null(rec2$children$ProbingSystem$children$Identification)){
+    tmp <-xmlChildren(rec2$children$ProbingSystem$children$Identification)
+    if(length(tmp)==0) {
+      prob.id.info <- list("No probing system identification specified")
+    } else {
+      prob.id.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    }
+    names(prob.id.info) <- "Instrument Probing System Identification"
+    #print(prob.id.info)
+    
   } else {
-    prob.id.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+    prob.id.info <- "NULL"
+    names(prob.id.info) <- "Instrument Probing System Identification"
+    print("No probe ID field in Record 2.")
   }
-  names(prob.id.info) <- "Instrument Probing System Identification"
-  #print(prob.id.info)
   
   # Comment:
   if(!is.null(rec2$children$Comment)){
@@ -179,7 +274,7 @@ read.x3p<-function(fpath){
     #print(comment.info)
     
   } else {
-    print("No Comment field in Record 2")
+    print("No Comment field in Record 2.")
     comment.info <- "NULL"
     names(comment.info) <- "Comment"
     #print(comment.info)
@@ -189,10 +284,21 @@ read.x3p<-function(fpath){
   #Record 3 information
   
   #Grab dimension of the surface to reassemble it from points
-  tmp <-xmlChildren(rec3$children$MatrixDimension)
-  surface.dim.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
-  names(surface.dim.info) <- names(tmp)
-  #print(surface.dim.info)
+  if(!is.null(rec3$children$MatrixDimension)) {
+    if(length(tmp) == 0) {
+      stop("Critical! Surface Dimention field in Record 3 provided, but it is empty!")
+      
+    } else {
+      tmp <-xmlChildren(rec3$children$MatrixDimension)
+      surface.dim.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
+      names(surface.dim.info) <- names(tmp)
+      #print(surface.dim.info)
+      
+    }
+    
+  } else {
+    stop("Critical! No Surface Dimension field in Record 3!")
+  }
   
   #Read out the surface z-heights. Is this ever a matrix??? Says so in the documentation. Ask at meeting 4.13.14
   surf.data.path <- paste(tempdir(),"/bindata/data.bin",sep="")
@@ -205,7 +311,7 @@ read.x3p<-function(fpath){
   if(zaxis.info$DataType=="I"){ #2-byte (shorts/halfs) ints. Zeiss CSM-700 does this.
     point.byte.depth <- 2
     surface3 <- readBin(ptr, what=integer(), size = point.byte.depth, n = ((as.numeric(surface.dim.info$SizeX))*(as.numeric(surface.dim.info$SizeY))), signed = TRUE, endian = "little")
-    surface3 <- (1e6) * (as.numeric(zaxis.info$Offset) + surface3*as.numeric(zaxis.info$Increment))
+    #surface3 <- (1e6) * (as.numeric(zaxis.info$Offset) + surface3*as.numeric(zaxis.info$Increment))
   }
   if(zaxis.info$DataType=="L"){ #4-byte ints.
     point.byte.depth<-4
@@ -232,6 +338,7 @@ read.x3p<-function(fpath){
   surface3 <- (1e6 * t(matrix(surface3, ncol=(as.numeric(surface.dim.info$SizeY)), nrow=(as.numeric(surface.dim.info$SizeX)))))
   #Units in meters:
   #surface3 <- (t(matrix(surface3, ncol=(as.numeric(surface.dim.info$SizeY)), nrow=(as.numeric(surface.dim.info$SizeX)))))
+  #surface3 <- (1e6) * (as.numeric(zaxis.info$Offset) + surface3*as.numeric(zaxis.info$Increment))
   
   header.info <- list(
     as.character(FeatureType),
