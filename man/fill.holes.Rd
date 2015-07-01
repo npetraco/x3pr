@@ -4,8 +4,10 @@
 \alias{fill.holes}
 \title{fill.holes}
 \usage{
-fill.holes(x3p.surf.file.info, hole.obj, hole.window.factor = 1.5,
-  fill.type.mat = NULL, printQ = FALSE)
+fill.holes(x3p.surf.file.info, hole.obj, big.hole.tol = 2,
+  big.hole.fill.typ = "surface.mean", hole.window.factor = 1.5,
+  fill.type.df = data.frame("all.the.same", "1D.interpolation"),
+  printQ = FALSE)
 }
 \arguments{
 \item{XXXX}{}
