@@ -1,3 +1,17 @@
+#--------------------------------------------
+#' @title crop.circle
+#' @description XXXX
+#' 
+#' @details XXXX
+#'
+#' @param XXXX
+#' 
+#' @return XXXX
+#' 
+#' @references \code{spatstat}
+#'
+#' @examples XXXX
+#--------------------------------------------
 crop.circle <- function(x3p.surf.file.info, radius) {
   
   head.info <- x3p.surf.file.info[[1]]
