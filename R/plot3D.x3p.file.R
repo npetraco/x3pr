@@ -88,7 +88,9 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
     z<-coords[,3]
     
     #Swap x and y axes to put origin in top left corner (image coordinates)
-    plot3d(y,x,z,radius=0.01, xlab="x",ylab="y",zlab="z",col="black",aspect=aspect,type="p")
+    rgl.plot.obj <- plot3d(y,x,z,radius=0.01, xlab="x",ylab="y",zlab="z",col="black",aspect=aspect,type="p")
+    
+    #return(list(rgl.plot.obj, coords))
     
   } else if(plot.type=="surface") {
     
@@ -99,7 +101,10 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
     #persp3d(xaxis, yaxis, t(decimated.surf.mat), aspect=aspect, col=color[zcol])
     
     #Swap x and y axes to put origin in top left corner (image coordinates)
-    persp3d(yaxis, xaxis, decimated.surf.mat, aspect=aspect, col=color[zcol])
+    rgl.plot.obj <- persp3d(yaxis, xaxis, decimated.surf.mat, aspect=aspect, col=color[zcol])
+    
+    #coords<-cbind(expand.grid(X=xaxis, Y=yaxis), as.numeric(t(decimated.surf.mat)))
+    #return(list(rgl.plot.obj, coords))
     
   } else {
     print("Pick surface or points.")
