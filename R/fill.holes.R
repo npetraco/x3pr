@@ -33,7 +33,7 @@ fill.holes <- function(x3p.surf.file.info, hole.obj,
   #Number of points in the surface file.
   num.pts <- nrow(x3p.surf.file.info[[2]])*ncol(x3p.surf.file.info[[2]])
   
-  #This is what to fill big holes with if they are found:
+  #This is what to fill BIG holes with if they are found:
   if(big.hole.fill.typ == "surface.mean") {
     
     big.hole.filler <- mean(x3p.surf.file.info[[2]], na.rm=TRUE)
@@ -72,7 +72,7 @@ fill.holes <- function(x3p.surf.file.info, hole.obj,
       miny <- min(hole.idxs[,1]) #Starting row index
       maxy <- max(hole.idxs[,1]) #Ending row index
       
-      #Expand the box around the hole (150% in each direction) to get a little more data for the hole filling function
+      #Expand the box around the hole (by hole.window.factor * 100% in each direction) to get a little more data for the hole filling function
       expan.x <- round(hole.window.factor*(maxx-minx))
       expan.y <- round(hole.window.factor*(maxy-miny))
       
@@ -143,9 +143,9 @@ fill.holes <- function(x3p.surf.file.info, hole.obj,
 #-----------------------------------------------------------------
 fill.func <- function(a.window, fill.typ) {
   
+  #Fill hole with horrizontal 1D interpolations if < 20% of points of the hole are NaNs, otherwise fill with window mean:
   if(fill.typ == "1D.interpolation") {
     
-    #Fill all holes with lateral 1D interpolation if <= 5% NaNs, otherwise fill with window mean:
     filled.window <- array(0.0, dim( a.window ))
     for(i in 1:nrow(filled.window)) {
       
@@ -154,14 +154,14 @@ fill.func <- function(a.window, fill.typ) {
       #print(nan.frac)
 
       if((nan.frac > 0.2) & (nan.frac < 1) ) {
-        #Fill row with the window mean if more than 5% of the points are NAN
+        #Fill row with the window mean if more than 20% of the points are NaN
         filled.window[i,] <- rep(mean(a.window, na.rm=TRUE), ncol(filled.window))
       } else if(nan.frac == 1) {
         #All data in the row are NaNs, skip it and print a warning
         filled.window[i,] <- a.window[i,]
-        warning("No data in window line. Skipping")
+        print(paste("No data in window line", i, "  Skipping."))
       } else if(nan.frac == 0) {
-        #If all of the points are there in a row of the window, then just keep them
+        #If all of the points are present in a row of the window, then just keep them
         filled.window[i,] <- a.window[i,]
       } else {
         #1D interpolation for the row
@@ -181,6 +181,8 @@ fill.func <- function(a.window, fill.typ) {
   if(fill.typ == "window.mean") {
     filled.window <- array(mean(a.window, na.rm=TRUE), dim( a.window ))
   }
+  
+  #Fill with 2D: 2D iterpolation???? thin plate splines (fields)?? 1D/2D mix with akima??
   
   return(filled.window)
   
