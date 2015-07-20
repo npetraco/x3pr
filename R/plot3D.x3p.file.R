@@ -53,8 +53,8 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
   print(paste("# x-points: ",length(dec.col.idxs)))
   print(paste("Total # points: ", tot.num.pts))
   
-  #More than 100,000 pts? Ask to plot.
-  if(tot.num.pts>=1e5){
+  #More than 500,000 pts? Ask to plot.
+  if(tot.num.pts>=5e5){
     print("Lots of points. Sure you want to do this? (y/n)")
     ans <- readline()
     if(ans=="n") {
