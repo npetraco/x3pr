@@ -19,10 +19,8 @@ and http://cran.r-project.org/web/packages/devtools/index.html.
 * Install the required support packages for x3pr. In the RStudio Console window, execute:
   * install.packages("XML")
   * install.packages("rgl")
-  * install.packages("akima")
   * install.packages("shiny")
   * install.packages("shinyRGL") (Windows and Mac only...)
-  * install.packages("signal")
 
 * Finally, in the RStudio Console window execute: devtools()::install_github("x3pr", username="npetraco").
 
