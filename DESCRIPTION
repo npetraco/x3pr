@@ -7,5 +7,5 @@ Author: OpenFMC (Open Forensic Metrology Consortium)
 Maintainer: <npetraco@gmail.com>
 Description: R Read/Write functionality for "standard" (we hope) surface metrology format X3P. Cf.: http://www.opengps.eu/2008/ISO5436_2 and http://www.opengps.eu/2008/ISO5436_2/ISO5436_2.xsd
 License: GPL (>= 2)
-Depends: tools (>= 3.0.2), XML (>= 3.95-0.2), akima (>= 0.5-11), rgl (>= 0.93.996), shiny (>= 0.11.1), spatstat (>= 1.41-1), signal (>= 0.7-5), fields (>= 8.2-1), zoo (>= 1.7-12)
-Imports: tools (>= 3.0.2), XML (>= 3.95-0.2), akima (>= 0.5-11), rgl (>= 0.93.996), shiny (>= 0.11.1), spatstat (>= 1.41-1), signal (>= 0.7-5), fields (>= 8.2-1), zoo (>= 1.7-12)
+Depends: tools (>= 3.0.2), XML (>= 3.95-0.2),  rgl (>= 0.93.996), shiny (>= 0.11.1)
+Imports: tools (>= 3.0.2), XML (>= 3.95-0.2),  rgl (>= 0.93.996), shiny (>= 0.11.1)
