@@ -1,8 +1,7 @@
 # x3pr 
 
-Basic read/write utilities for the x3p surface metrology format in R. The package also supports the DigitalSurf .sur () and Zeiss LMS format for the CSM-700 confocal microscope (Warning: still buggy). The package is not up on CRAN yet. 
-The best way to install x3pr is with Hadley Wickham's devtools: https://github.com/hadley/devtools 
-and http://cran.r-project.org/web/packages/devtools/index.html. 
+Basic read/write utilities for the x3p surface metrology format in R. The package also supports the DigitalSurf .sur () format. X3pr is now failrly stable, but still under some development and hence not up on CRAN yet. 
+The best way to install x3pr is with Hadley Wickham's devtools (cf. https://github.com/hadley/devtools and http://cran.r-project.org/web/packages/devtools/index.html). 
 
 * If you haven't already done so, first install R (http://www.r-project.org/) and then RStudio (http://www.rstudio.com/) for your operating system. Note that both are open-source (and thus peer-reviewed, ...many times over if that is a concern) and free. 
 
