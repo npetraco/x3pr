@@ -4,7 +4,7 @@
 #' 
 #' @details 3D plot  of a surface in X3P format. Some type of decimation is usually
 #' required so that the surface can be rendered fast. The arguments num.x.pts
-#' and num.slices allow the user to subsample the surface down to the desited size.
+#' and num.slices allow the user to subsample the surface down to the desired size.
 #' If the number of points is still potentially large, the function will prompt the 
 #' user if they want to continue.
 #'
@@ -14,7 +14,7 @@
 #' @param aspect aspect ratios
 #' @param plot.type "points" or "surface"
 #' 
-#' @return a plot.
+#' @return An RGL 3D plot.
 #' 
 #' @references http://open-gps.sourceforge.net/
 #'
@@ -68,12 +68,12 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
   #Generate x and y axes to scale
   num.pts.per.line<-as.numeric(head.info["num.pts.line"])
   xinc<-as.numeric(head.info["x.inc"]) #should be microns already
-  xaxis<-seq(from=0,to=xinc*(num.pts.per.line-1),length.out=num.x.pts)
+  xaxis<-seq(from=0,to=xinc*(num.pts.per.line-1),length.out=length(dec.col.idxs)) #Fix for Hoffmann/Hare bug
   dec.xaxis<-xaxis[dec.col.idxs]
 #   
   num.lines<-as.numeric(head.info["num.lines"])
   yinc<-as.numeric(head.info["y.inc"]) #should be microns already FIX THIS LATER
-  yaxis<-seq(from=0,to=yinc*(num.lines-1),length.out=num.slices)
+  yaxis<-seq(from=0,to=yinc*(num.lines-1),length.out=length(dec.row.idxs)) #Fix for Hoffmann/Hare bug
   dec.yaxis<-yaxis[dec.row.idxs]
   
   #print(yinc)
