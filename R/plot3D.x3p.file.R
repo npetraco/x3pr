@@ -24,8 +24,9 @@
 #' file.path <- system.file("extdata", "glock.x3p", package="x3pr")
 #' glock.x3p.info <- read.x3p(file.path)
 #' plot3D.x3p.file(glock.x3p.info, 1024, 80, aspect=c(1,3,0.4), plot.type="surface")
+#' plot3D.x3p.file(glock.x3p.info, 1024, 80, aspect=c(1,3,0.4), plot.type="surface", color = topo.colors(256))
 #--------------------------------------------
-plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, aspect=c(1,0.3,0.2), plot.type="points", nbcol = 256, color = if (plot.type == "points") "black" else rev(rainbow(nbcol, start = 0/6, end = 2/6))) {
+plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, aspect=c(1,0.3,0.2), plot.type="points", color = if (plot.type == "points") "black" else rev(rainbow(256, start = 0/6, end = 2/6))) {
   
   head.info<-x3p.surf.file.info[[1]]
   print(head.info)
@@ -90,14 +91,14 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
     z<-coords[,3]
     
     #Swap x and y axes to put origin in top left corner (image coordinates)
-    rgl.plot.obj <- plot3d(y,x,z,radius=0.01, xlab="x",ylab="y",zlab="z",col=color[1], t=aspect,type="p")
+    rgl.plot.obj <- plot3d(y,x,z,radius=0.01, xlab="x",ylab="y",zlab="z",col=color, aspect=aspect,type="p")
     
     #return(list(rgl.plot.obj, coords))
     
   } else if(plot.type=="surface") {
     
     #zcol  = cut(t(decimated.surf.mat), nbcol)   
-    zcol  = cut(decimated.surf.mat, nbcol)   
+    zcol  = cut(decimated.surf.mat, length(color))   
     #persp3d(xaxis, yaxis, t(decimated.surf.mat), aspect=aspect, col=color[zcol])
     
     #Swap x and y axes to put origin in top left corner (image coordinates)
