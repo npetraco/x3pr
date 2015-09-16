@@ -22,6 +22,9 @@
 #' file.path <- system.file("extdata", "glock.x3p", package="x3pr")
 #' glock.x3p.info <- read.x3p(file.path)
 #' plot3D.x3p.file(glock.x3p.info, 1024, 80, aspect=c(1,3,0.4), plot.type="surface")
+#' 
+#' ## fairly large example, only to check functionality for now
+#' plot3D.x3p.file(glock.x3p.info, plot.type="surface") 
 #--------------------------------------------
 plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, aspect=c(1,0.3,0.2), plot.type="points") {
   
@@ -29,23 +32,26 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
   print(head.info)
   surf.mat<-x3p.surf.file.info[[2]]
   
-  #Downsample the surface points for faster plotting:
+  # Downsample the surface points for faster plotting:
   if(is.null(num.x.pts)){
-    dec.col.idxs<-seq(from=1,to=as.numeric(head.info["num.pts.line"]),by=1)    
-  } else {
-    dec.col.idxs<-unique(round(seq(from=1,to=as.numeric(head.info["num.pts.line"]), length.out=num.x.pts)))
-    if(length(dec.col.idxs)>ncol(surf.mat)){
-      stop("Number of requested points in x-direction (number of points per profile) exceeds number of columns in surface matrix!")
-    }
+    num.x.pts <- as.numeric(head.info["num.pts.line"]) # no downsampling, initialize num.x.pts for sure. 
+    # it might be better to use a default of num.x.pts = x3p.surf.file.info[[1]]$num.pts.line
   }
+  if(num.x.pts>ncol(surf.mat)){
+    num.x.pts <- ncol(surf.mat)
+    warning("Number of requested points in x-direction (number of points per profile) exceeds number of columns in surface matrix. Proceeding with maximum possible.")
+  }
+  dec.col.idxs<-seq(from=1,to=as.numeric(head.info["num.pts.line"]),length.out=num.x.pts)    
+  
+  # same thing for y direction
   if(is.null(num.slices)){
-    dec.row.idxs<-seq(from=1,to=as.numeric(head.info["num.lines"]),by=1)
-  } else {
-    dec.row.idxs<-unique(round(seq(from=1,to=as.numeric(head.info["num.lines"]), length.out=num.slices)))
-    if(length(dec.row.idxs)>nrow(surf.mat)){
-      stop("Number of requested points in y-direction (numner of profiles/slices) exceeds number of rows in surface matrix!")
-    }
+    num.slices <- as.numeric(head.info["num.lines"])
   }
+  if(num.slices>nrow(surf.mat)){
+    num.slices <- nrow(surf.mat)
+    warning("Number of requested points in y-direction (number of profiles/slices) exceeds number of rows in surface matrix. Proceeding with maximum possible.")
+  }
+  dec.row.idxs<-unique(round(seq(from=1,to=as.numeric(head.info["num.lines"]), length.out=num.slices)))
   
   tot.num.pts <- length(dec.col.idxs)*length(dec.row.idxs)
   
@@ -70,7 +76,7 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
   xinc<-as.numeric(head.info["x.inc"]) #should be microns already
   xaxis<-seq(from=0,to=xinc*(num.pts.per.line-1),length.out=length(dec.col.idxs)) #Fix for Hoffmann/Hare bug
   dec.xaxis<-xaxis[dec.col.idxs]
-#   
+  #   
   num.lines<-as.numeric(head.info["num.lines"])
   yinc<-as.numeric(head.info["y.inc"]) #should be microns already FIX THIS LATER
   yaxis<-seq(from=0,to=yinc*(num.lines-1),length.out=length(dec.row.idxs)) #Fix for Hoffmann/Hare bug
@@ -79,7 +85,7 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
   #print(yinc)
   #print(xinc)
   
-
+  
   if(plot.type=="points"){
     
     coords<-cbind(expand.grid(X=xaxis, Y=yaxis), as.numeric(t(decimated.surf.mat)))
@@ -109,5 +115,5 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
   } else {
     print("Pick surface or points.")
   }      
-
+  
 }
