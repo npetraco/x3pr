@@ -13,7 +13,6 @@
 #' @param num.slices number of points desired in the y-direction.
 #' @param aspect aspect ratios
 #' @param plot.type "points" or "surface"
-#' @param nbcol The number of colors (used only for surface plots)
 #' @param color The color(s) to use for the plot
 #' 
 #' @return An RGL 3D plot.

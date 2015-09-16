@@ -5,9 +5,8 @@
 \title{3D plot  of a surface in X3P format}
 \usage{
 plot3D.x3p.file(x3p.surf.file.info, num.x.pts = NULL, num.slices = NULL,
-  aspect = c(1, 0.3, 0.2), plot.type = "points", nbcol = 256, color = if
-  (plot.type == "points") "black" else rev(rainbow(nbcol, start = 0/6, end =
-  2/6)))
+  aspect = c(1, 0.3, 0.2), plot.type = "points", color = if (plot.type ==
+  "points") "black" else rev(rainbow(256, start = 0/6, end = 2/6)))
 }
 \arguments{
 \item{x3p.surf.file.info}{information read in by \code{read.x3p}}
@@ -20,12 +19,10 @@ plot3D.x3p.file(x3p.surf.file.info, num.x.pts = NULL, num.slices = NULL,
 
 \item{plot.type}{"points" or "surface"}
 
-\item{nbcol}{The number of colors (used only for surface plots)}
-
 \item{color}{The color(s) to use for the plot}
 }
 \value{
-a plot.
+An RGL 3D plot.
 }
 \description{
 3D plot  of a surface in X3P format
@@ -33,7 +30,7 @@ a plot.
 \details{
 3D plot  of a surface in X3P format. Some type of decimation is usually
 required so that the surface can be rendered fast. The arguments num.x.pts
-and num.slices allow the user to subsample the surface down to the desited size.
+and num.slices allow the user to subsample the surface down to the desired size.
 If the number of points is still potentially large, the function will prompt the
 user if they want to continue.
 }
@@ -41,6 +38,7 @@ user if they want to continue.
 file.path <- system.file("extdata", "glock.x3p", package="x3pr")
 glock.x3p.info <- read.x3p(file.path)
 plot3D.x3p.file(glock.x3p.info, 1024, 80, aspect=c(1,3,0.4), plot.type="surface")
+plot3D.x3p.file(glock.x3p.info, 1024, 80, aspect=c(1,3,0.4), plot.type="surface", color = topo.colors(256))
 }
 \references{
 http://open-gps.sourceforge.net/
