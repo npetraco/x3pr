@@ -23,7 +23,7 @@
 #' glock.x3p.info <- read.x3p(file.path)
 #' plot3D.x3p.file(glock.x3p.info, 1024, 80, aspect=c(1,3,0.4), plot.type="surface")
 #--------------------------------------------
-plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, aspect=c(1,0.3,0.2), plot.type="points") {
+plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, aspect=c(1,0.3,0.2), color.scheme=NULL, plot.type="points") {
   
   head.info<-x3p.surf.file.info[[1]]
   print(head.info)
@@ -87,21 +87,36 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
     y<-coords[,2]
     z<-coords[,3]
     
+    if(is.null(color.scheme)) {
+      col.sch <- "black"
+    } else {
+      col.sch <- color.scheme
+    }
+    
     #Swap x and y axes to put origin in top left corner (image coordinates)
-    rgl.plot.obj <- plot3d(y,x,z,radius=0.01, xlab="x",ylab="y",zlab="z",col="black",aspect=aspect,type="p")
+    rgl.plot.obj <- plot3d(y,x,z,radius=0.01, xlab="x",ylab="y",zlab="z",col=col.sch,aspect=aspect,type="p")
     
     #return(list(rgl.plot.obj, coords))
     
   } else if(plot.type=="surface") {
     
-    nbcol = 256
-    color = rev(rainbow(nbcol, start = 0/6, end = 2/6)) #Color band width
-    #zcol  = cut(t(decimated.surf.mat), nbcol)   
-    zcol  = cut(decimated.surf.mat, nbcol)   
+    
+    if(is.null(color.scheme)) {
+      
+      nbcol <- 256
+      col.sch <- rev(rainbow(nbcol, start = 0/6, end = 2/6)) #Color band width
+      zcol  <- cut(decimated.surf.mat, nbcol)   
+    
+      } else {
+      col.sch <- color.scheme
+      nbcol <- length(col.sch)
+      zcol  <- cut(decimated.surf.mat, nbcol) 
+    }
+     
     #persp3d(xaxis, yaxis, t(decimated.surf.mat), aspect=aspect, col=color[zcol])
     
     #Swap x and y axes to put origin in top left corner (image coordinates)
-    rgl.plot.obj <- persp3d(yaxis, xaxis, decimated.surf.mat, aspect=aspect, col=color[zcol])
+    rgl.plot.obj <- persp3d(yaxis, xaxis, decimated.surf.mat, aspect=aspect, col=col.sch[zcol])
     
     #coords<-cbind(expand.grid(X=xaxis, Y=yaxis), as.numeric(t(decimated.surf.mat)))
     #return(list(rgl.plot.obj, coords))
