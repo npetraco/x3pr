@@ -23,7 +23,7 @@
 #' glock.x3p.info <- read.x3p(file.path)
 #' plot3D.x3p.file(glock.x3p.info, 1024, 80, aspect=c(1,3,0.4), plot.type="surface")
 #--------------------------------------------
-plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, aspect=c(1,0.3,0.2), color.scheme=NULL, plot.type="points") {
+plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, aspect=c(1,0.3,0.2), color.scheme=NULL, texture=NULL, plot.type="points") {
   
   head.info<-x3p.surf.file.info[[1]]
   print(head.info)
@@ -114,6 +114,15 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
     }
      
     #persp3d(xaxis, yaxis, t(decimated.surf.mat), aspect=aspect, col=color[zcol])
+    
+    persp3d(xaxis, yaxis, t(decimated.surf.mat), aspect=apsect, col=color[zcol])
+    tex.3d <- texture
+    tex.3d=system.file("", package=""),
+    specular-"black", axes=FALSE, box=FALSE, xlab="", ylab="", zlab="",
+    normal_x=x, normal_y=y, normal_z=z)
+    
+    
+    
     
     #Swap x and y axes to put origin in top left corner (image coordinates)
     rgl.plot.obj <- persp3d(yaxis, xaxis, decimated.surf.mat, aspect=aspect, col=col.sch[zcol])
