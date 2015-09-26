@@ -115,17 +115,10 @@ plot3D.x3p.file<-function(x3p.surf.file.info, num.x.pts=NULL, num.slices=NULL, a
      
     #persp3d(xaxis, yaxis, t(decimated.surf.mat), aspect=aspect, col=color[zcol])
     
-    persp3d(xaxis, yaxis, t(decimated.surf.mat), aspect=apsect, col=color[zcol])
-    tex.3d <- texture
-    tex.3d=system.file("", package=""),
-    specular-"black", axes=FALSE, box=FALSE, xlab="", ylab="", zlab="",
-    normal_x=x, normal_y=y, normal_z=z)
-    
-    
     
     
     #Swap x and y axes to put origin in top left corner (image coordinates)
-    rgl.plot.obj <- persp3d(yaxis, xaxis, decimated.surf.mat, aspect=aspect, col=col.sch[zcol])
+    rgl.plot.obj <- persp3d(yaxis, xaxis, decimated.surf.mat, aspect=aspect, texture=texture, col=col.sch[zcol])
     
     #coords<-cbind(expand.grid(X=xaxis, Y=yaxis), as.numeric(t(decimated.surf.mat)))
     #return(list(rgl.plot.obj, coords))
