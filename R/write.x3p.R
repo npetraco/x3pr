@@ -86,7 +86,7 @@ write.x3p <- function(x3p.header.info.list, surface.mat, fname, move.to.director
   
   #Write the surface data file first so that its md5 hash can be computed.
   fptr <- file(data.fpath, "wb")
-  #Assumes data to be written is in units of um. IMPROVE.
+  #Assumes data to be written is in units of um. Here we convert it to meters as required by the xp3 standard. TODO: IMPROVE.
   writeBin(1e-6 * as.numeric(t(surface.mat)), data.fpath, size=4)
   close(fptr)
   

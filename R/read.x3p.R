@@ -285,11 +285,12 @@ read.x3p<-function(fpath){
   
   #Grab dimension of the surface to reassemble it from points
   if(!is.null(rec3$children$MatrixDimension)) {
+    tmp <-xmlChildren(rec3$children$MatrixDimension)
     if(length(tmp) == 0) {
       stop("Critical! Surface Dimention field in Record 3 provided, but it is empty!")
       
     } else {
-      tmp <-xmlChildren(rec3$children$MatrixDimension)
+      #COMMENTED OUT: 6/1/16 tmp <-xmlChildren(rec3$children$MatrixDimension)
       surface.dim.info <- lapply(1:length(tmp), function(x){ xmlValue(tmp[[x]]) })
       names(surface.dim.info) <- names(tmp)
       #print(surface.dim.info)
@@ -334,7 +335,7 @@ read.x3p<-function(fpath){
   #Units should come out in microns, meters ..... ????
   #Xreal = Xoffset + Xinteger∗XIncrement.
   
-  #Units in microns:
+  #Assumes units of file read in were in meters. Convert to units in microns: TODO: CHECK FOR READ IN UNITS AND REMOVE ASSUMPTION
   surface3 <- (1e6 * t(matrix(surface3, ncol=(as.numeric(surface.dim.info$SizeY)), nrow=(as.numeric(surface.dim.info$SizeX)))))
   #Units in meters:
   #surface3 <- (t(matrix(surface3, ncol=(as.numeric(surface.dim.info$SizeY)), nrow=(as.numeric(surface.dim.info$SizeX)))))
@@ -353,7 +354,7 @@ read.x3p<-function(fpath){
     as.character(prob.id.info),
     as.character(comment.info),
     as.character(zaxis.info$DataType),
-    as.numeric(xaxis.info$Increment)*1e6, #Converts to microns
+    as.numeric(xaxis.info$Increment)*1e6, #Converts to microns, Assumes was in meters. TODO: REMOVE THIS ASSUMPTION
     as.numeric(yaxis.info$Increment)*1e6, #Converts to microns
     as.numeric(surface.dim.info$SizeY), 
     as.numeric(surface.dim.info$SizeX)
