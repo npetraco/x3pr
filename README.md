@@ -1,27 +1,26 @@
 # x3pr 
 
-Basic read/write utilities for the x3p surface metrology format in R. The package also supports the DigitalSurf .sur () format. X3pr is now failrly stable, but still under some development and hence not up on CRAN yet. 
-The best way to install x3pr is with Hadley Wickham's devtools (cf. https://github.com/hadley/devtools and http://cran.r-project.org/web/packages/devtools/index.html). 
+Basic read/write utilities for the x3p surface metrology format in R. The package also supports the DigitalSurf .sur () format. X3pr is now failrly stable. Maybe one day I'll put it up on CRAN, but I'm leaving it here on GitHub for now. 
+The best way to install x3pr is with the R package "remotes". 
 
-* If you haven't already done so, first install R (http://www.r-project.org/) and then RStudio (http://www.rstudio.com/) for your operating system. Note that both are open-source (and thus peer-reviewed, ...many times over if that is a concern) and free. 
+* If you haven't already done so, first install R (http://www.r-project.org/). Optionally install RStudio (http://www.rstudio.com/) for your operating system. Note that both are open-source (and thus peer-reviewed, ...many times over if that is a concern) and free.
 
-* Install devtools in your R distribution. In the RStudio Console window type:
-  * install.packages("devtools")
-
-* Windows users: Install Rtools 3.1 as recommended by the devtools package: http://cran.r-project.org/bin/windows/Rtools/ 
+* Install remotes in your R distribution. In the R Console window type:
+  * install.packages("remotes")
 
 * Mac users: Make sure to install XQuartz (http://xquartz.macosforge.org/trac) which is required by rgl.
 
-* Linux users: Being singularly DIY, you are probably ok. But, ... just incase ... make sure gcc is installed and running. Any toolchain should suffice however. For shinyRGL, try to install from git directly: http://trestletech.github.io/shinyRGL/
+* Linux users: Being singularly DIY, you are probably ok. But, ... just incase ... make sure gcc is installed and running. Any toolchain should suffice however. Optionally for shinyRGL, try to install from git directly: http://trestletech.github.io/shinyRGL/
   * There is no shinyRGL for Linux up on CRAN
 
 * Install the required support packages for x3pr. In the RStudio Console window, execute:
   * install.packages("XML")
   * install.packages("rgl")
   * install.packages("shiny")
-  * install.packages("shinyRGL") (Windows and Mac only...)
+  * install.packages("shinyRGL") (shinyRGL is optional. Also this line only works for Windows and Mac...)
 
-* Finally, in the RStudio Console window execute: devtools()::install_github("x3pr", username="npetraco").
+* Finally, in the R Console window execute: remotes::install_github("npetraco/x3pr").
+  * This may take a little while as the example 3D surface files that come with the package are large.
 
 Examples are provided in the help pages. If you are new to R, below is an example R script which:
 
